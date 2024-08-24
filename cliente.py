@@ -2,17 +2,21 @@ import sqlite3
 from conta_bancaria import ContaBancaria
 class Cliente:
     def __init__(self, nome, telefone, email, cpf, id=None):
+        self.id = id
         self.nome = nome
         self.telefone = telefone
         self.email = email
         self.cpf = cpf
-        self.id = id
 
     @staticmethod
     def conectar():
         return sqlite3.connect("sistema-bancario.db")
 
     def salvar(self):
+        if not all([self.nome, self.telefone, self.email, self.cpf]):
+            print("\nErro: Todos os campos (nome, telefone, email, CPF) devem ser preenchidos.\n")
+            return None
+        
         conexao = Cliente.conectar()
         cursor = conexao.cursor()
         cursor.execute('''
@@ -25,14 +29,23 @@ class Cliente:
 
         conta = ContaBancaria(cliente_id=self.id)
         return conta.criar_conta()
-
+    
     @staticmethod
     def buscar_por_cpf(cpf):
         conexao = Cliente.conectar()
         cursor = conexao.cursor()
-        cursor.execute('SELECT * FROM Cliente WHERE cpf=?', (cpf,))
-        resultado = cursor.fetchone()
-        conexao.close()
-        if resultado:
-            return Cliente(resultado[1], resultado[2], resultado[3], resultado[4], resultado[0])
-        return None
+        cursor.execute('SELECT nome, telefone, email, cpf, id FROM Cliente WHERE cpf=?', (cpf,))
+        resultado_cliente = cursor.fetchone()
+        
+        if(resultado_cliente):
+            cursor.execute('SELECT * FROM ContaBancaria WHERE cliente_id=?', (resultado_cliente[4],))
+            resultado_conta = cursor.fetchone()
+            conexao.close()
+            
+            if resultado_conta:
+                cliente = Cliente(resultado_cliente[0], resultado_cliente[1], resultado_cliente[2], 
+                                  resultado_cliente[3], resultado_cliente[4])
+                conta = ContaBancaria(resultado_conta[0], resultado_conta[1], resultado_conta[2], resultado_conta[3])
+                return cliente, conta
+            
+            return None

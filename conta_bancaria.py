@@ -27,6 +27,7 @@ class ContaBancaria:
         conexao.commit()
         self.id = cursor.lastrowid
         conexao.close()
+        
         return ContaBancaria(self.id, self.numero, self.saldo, self.cliente_id)
                 
     @staticmethod
@@ -36,8 +37,10 @@ class ContaBancaria:
         cursor.execute('SELECT id, numero, saldo, cliente_id FROM ContaBancaria WHERE numero=?', (numero,))
         resultado = cursor.fetchone()
         conexao.close()
+        
         if resultado:
             return ContaBancaria(resultado[0], resultado[1], resultado[2], resultado[3])
+        
         return None
     
     def depositar(self, valor):
@@ -45,16 +48,20 @@ class ContaBancaria:
             self.saldo += valor
             self.adicionar_extrato("Depósito", valor)
             self.atualizar_saldo()
+            return True
         else:
-            print('Valor de depósito inválido.')
+            print('\nValor de depósito inválido.\n')
+            return False
             
     def sacar(self, valor):
         if 0 < valor <= self.saldo:
             self.saldo -= valor
             self.adicionar_extrato("Saque", -valor)
             self.atualizar_saldo()
-        else:
-            print('Saldo insuficiente ou valor de saque inválido.')
+            return True
+        else: 
+            print('\nSaldo insuficiente ou valor de saque inválido.\n')
+            return False
             
     def atualizar_saldo(self):
         conexao = ContaBancaria.conectar()
@@ -79,6 +86,7 @@ class ContaBancaria:
         cursor.execute('SELECT data, descricao, valor FROM Extrato WHERE conta_numero=? ORDER BY data DESC', (self.numero,))
         extrato = cursor.fetchall()
         conexao.close()
+        
         print()
         print(f' Extrato da conta: {self.numero} '.center(40, "-"))
     
