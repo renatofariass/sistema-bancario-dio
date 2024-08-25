@@ -19,6 +19,14 @@ class Cliente:
         
         conexao = Cliente.conectar()
         cursor = conexao.cursor()
+        cursor.execute('SELECT id FROM Cliente WHERE cpf=?', (self.cpf,))
+        
+        resultado = cursor.fetchone()
+        if resultado:
+            print("\nErro: CPF já cadastrado.\n")
+            conexao.close()
+            return None
+        
         cursor.execute('''
             INSERT INTO Cliente (nome, telefone, email, cpf)
             VALUES (?, ?, ?, ?)
