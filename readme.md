@@ -23,7 +23,7 @@ Este é um projeto simples de um sistema bancário desenvolvido em Python, utili
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/renatofariass/sistema-bancario-python.git
+   git clone https://github.com/renatofariass/sistema-bancario-dio.git
    ```
 2. **Abra a pasta do projeto no vscode, ou na IDE de sua preferência e aperte play no arquivo "app.py" ou abra um terminal dentro da pasta e rode:**
     ```
