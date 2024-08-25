@@ -39,5 +39,3 @@ def criar_tabelas():
 
     conexao.commit()
     conexao.close()
-
-criar_tabelas()
