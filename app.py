@@ -17,9 +17,9 @@ def menu():
     print('8. Sair')
 
 def adicionar_conta():
-    nome = input("Nome: ")
+    nome = input("Nome: ").capitalize()
     telefone = input("Telefone: ")
-    email = input("Email: ")
+    email = input("Email: ").lower()
     cpf = input("CPF: ")
 
     cliente_conta = Cliente(nome, telefone, email, cpf)
