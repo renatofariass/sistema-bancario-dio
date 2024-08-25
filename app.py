@@ -17,9 +17,9 @@ def menu():
     print('8. Sair')
 
 def adicionar_conta():
-    nome = input("Nome: ").capitalize()
+    nome = (input("Nome: ")).title()
     telefone = input("Telefone: ")
-    email = input("Email: ").lower()
+    email = (input("Email: ")).lower()
     cpf = input("CPF: ")
 
     cliente_conta = Cliente(nome, telefone, email, cpf)
@@ -53,7 +53,8 @@ def consultar_conta():
     
     print('\n' + ' Dados da conta '.center(30, "-"))
     print(f"Número da Conta: {conta.numero}")
-    print(f"Saldo: R${conta.saldo:.2f}\n")
+    print(f"Saldo: R${conta.saldo:.2f}")
+    print(f"Saques realizados: {conta.saques}/{ContaBancaria.MAX_SAQUES}\n")
 
 def depositar_em_conta():
     numero = input("Número da Conta: ")
@@ -94,7 +95,8 @@ def sacar_de_conta():
     print(' Dados da conta '.center(30, "-"))
     print(f"Número da Conta: {conta.numero}")
     print(f'Saldo Anterior: R${valor_anterior:.2f}')
-    print(f"Saldo Atual: R${conta.saldo:.2f}\n")        
+    print(f"Saldo Atual: R${conta.saldo:.2f}\n")
+    print(f"Saques restantes: {ContaBancaria.MAX_SAQUES - conta.saques}\n")        
 
 def ver_extrato():
     numero = input("Número da Conta: ")

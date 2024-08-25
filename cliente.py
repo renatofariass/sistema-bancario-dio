@@ -53,7 +53,7 @@ class Cliente:
             if resultado_conta:
                 cliente = Cliente(resultado_cliente[0], resultado_cliente[1], resultado_cliente[2], 
                                   resultado_cliente[3], resultado_cliente[4])
-                conta = ContaBancaria(resultado_conta[0], resultado_conta[1], resultado_conta[2], resultado_conta[3])
+                conta = ContaBancaria(resultado_conta[0], resultado_conta[1], resultado_conta[2], resultado_conta[3], resultado_conta[4])
                 return cliente, conta
             
             return None

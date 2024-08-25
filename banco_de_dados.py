@@ -19,6 +19,7 @@ def criar_tabelas():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             numero INTEGER NOT NULL,
             saldo REAL NOT NULL,
+            saques INTEGER DEFAULT 0,
             cliente_id INTEGER NOT NULL,
             FOREIGN KEY (cliente_id) REFERENCES Cliente(id)
                 ON DELETE CASCADE
